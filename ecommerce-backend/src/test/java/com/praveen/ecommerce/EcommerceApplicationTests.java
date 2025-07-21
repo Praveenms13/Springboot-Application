@@ -1,10 +1,10 @@
-package com.praveen.stickerstorebackend;
+package com.praveen.ecommerce;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StickerstoreBackendApplicationTests {
+class EcommerceApplicationTests {
 
     @Test
     void contextLoads() {

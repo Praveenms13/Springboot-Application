@@ -1,13 +1,13 @@
-package com.praveen.stickerstorebackend;
+package com.praveen.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StickerstoreBackendApplication {
+public class EcommerceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StickerstoreBackendApplication.class, args);
+        SpringApplication.run(EcommerceApplication.class, args);
     }
 
 }
