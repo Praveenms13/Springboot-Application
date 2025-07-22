@@ -7,7 +7,7 @@ export default function ProductListings({ products }) {
       <div className="product-listings-grid">
         {products.length > 0 ? (
           products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.productId} product={product} />
           ))
         ) : (
           <p className="product-listings-empty">No products available</p>
