@@ -12,8 +12,8 @@ export default function Footer() {
         aria-hidden="true"
       />
       by
-      <a href="https://eazybytes.com/" target="_blank" rel="noreferrer">
-        eazybytes
+      <a href="https://www.praveenms.in" target="_blank" rel="noreferrer">
+        Praveen
       </a>
     </footer>
   );
