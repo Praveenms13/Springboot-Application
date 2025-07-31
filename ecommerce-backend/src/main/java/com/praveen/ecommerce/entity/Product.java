@@ -33,14 +33,14 @@ public class Product {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "create_at", nullable = false)
-    private Instant createAt;
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
-    @Column(name = "update_at")
-    private Instant updateAt;
+    @Column(name = "updated_at")
+    private Instant updatedAt;
 
     @Column(name = "updated_by")
     private String updatedBy;
