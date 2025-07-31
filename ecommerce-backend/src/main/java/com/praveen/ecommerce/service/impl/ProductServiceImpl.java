@@ -1,6 +1,8 @@
 package com.praveen.ecommerce.service.impl;
 
 import com.praveen.ecommerce.dto.ProductDto;
+import com.praveen.ecommerce.entity.Product;
+import com.praveen.ecommerce.repository.ProductRepository;
 import com.praveen.ecommerce.service.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +24,7 @@ public class ProductServiceImpl implements IProductService {
     private ProductDto transformToDto(Product product) {
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(product, productDto);
+        productDto.setProductId(product.getId());
         return productDto;
     }
 }
