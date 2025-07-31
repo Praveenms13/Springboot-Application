@@ -1,12 +1,9 @@
 package com.praveen.ecommerce.service.impl;
 
 import com.praveen.ecommerce.dto.ProductDto;
-import com.praveen.ecommerce.entity.Product;
-import com.praveen.ecommerce.repository.ProductRepository;
 import com.praveen.ecommerce.service.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
