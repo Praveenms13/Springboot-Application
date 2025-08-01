@@ -1,7 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBasket, faTags } from "@fortawesome/free-solid-svg-icons";
+import {
+  faShoppingBasket,
+  faTags,
+  faSun,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export default function Header() {
+  const [theme, setTheme] = useState("light");
   const navLinkClass =
     "text-center text-lg font-primary font-semibold text-primary py-2";
   return (
@@ -12,6 +19,21 @@ export default function Header() {
           <span className="font-bold">Praveen's Sticker Shop</span>
         </a>
         <nav className="flex items-center py-2 z-10">
+          <button
+            className="flex items-center justify-center mx-3 w-8 h-8 rounded-full border border-primary dark:border-light transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+            aria-label="Toggle Theme"
+            onClick={() => {
+              setTheme((prevTheme) =>
+                prevTheme === "dark" ? "light" : "dark"
+              );
+              document.documentElement.classList.toggle("dark");
+            }}
+          >
+            <FontAwesomeIcon
+              icon={theme === "dark" ? faMoon : faSun}
+              className="w-4 h-4 dark:text-light text-primary"
+            />
+          </button>
           <ul className="flex space-x-6">
             <li>
               <a href="/" className={navLinkClass}>

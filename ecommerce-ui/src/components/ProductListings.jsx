@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ProductCard from "./ProductCard";
 import SearchBox from "./SearchBox";
 import Dropdown from "./Dropdown";
@@ -9,35 +9,31 @@ export default function ProductListings({ products }) {
   const [searchText, setSearchText] = useState("");
   const [selectedSort, setSelectedSort] = useState("Popularity");
 
+  const filteredAndSortedProducts = useMemo(() => {
+    if (!Array.isArray(products) || products.length === 0) {
+      return [];
+    }
+    let filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    return filtered.slice().sort((a, b) => {
+      switch (selectedSort) {
+        case "Price: Low to High":
+          return parseFloat(a.price) - parseFloat(b.price);
+        case "Price: High to Low":
+          return parseFloat(b.price) - parseFloat(a.price);
+        case "Popularity":
+        default:
+          return parseInt(b.popularity) - parseInt(a.popularity);
+      }
+    });
+  }, [products, searchText, selectedSort]);
+
   const handleSearch = (inputSearch) => setSearchText(inputSearch);
   const handleSort = (sortType) => setSelectedSort(sortType);
-
-  let filteredAndSortedProducts = Array.isArray(products)
-    ? products.filter(
-        (product) =>
-          product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchText.toLowerCase())
-      )
-    : [];
-
-  switch (selectedSort) {
-    case "Price: Low to High":
-      filteredAndSortedProducts.sort(
-        (a, b) => parseFloat(a.price) - parseFloat(b.price)
-      );
-      break;
-    case "Price: High to Low":
-      filteredAndSortedProducts.sort(
-        (a, b) => parseFloat(b.price) - parseFloat(a.price)
-      );
-      break;
-    case "Popularity":
-    default:
-      filteredAndSortedProducts.sort(
-        (a, b) => parseInt(b.popularity) - parseInt(a.popularity)
-      );
-      break;
-  }
 
   return (
     <div className="max-w-[1152px] mx-auto">
@@ -51,7 +47,7 @@ export default function ProductListings({ products }) {
         <Dropdown
           label="Sort By"
           options={sortList}
-          selectedValue={selectedSort} // or value={selectedSort}
+          selectedValue={selectedSort}
           handleSort={handleSort}
         />
       </div>
@@ -62,7 +58,7 @@ export default function ProductListings({ products }) {
           ))
         ) : (
           <p className="text-center font-primary font-bold text-lg text-primary">
-            No products found 
+            No products found
           </p>
         )}
       </div>
