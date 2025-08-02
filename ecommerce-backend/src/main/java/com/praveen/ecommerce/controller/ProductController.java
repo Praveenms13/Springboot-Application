@@ -20,7 +20,7 @@ public class ProductController {
     @GetMapping
     public List<ProductDto> getProducts() {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Thread was interrupted", e);

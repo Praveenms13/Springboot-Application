@@ -1,15 +1,16 @@
 import Header from "./components/Header";
-import Home from "./components/Home";
 import Footer from "./components/footer/Footer";
-import React from "react";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <React.Fragment>
+    <>
       <Header />
-      <Home />
+      <Outlet />
       <Footer />
-    </React.Fragment>
+    </>
   );
 }
 
