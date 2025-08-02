@@ -5,14 +5,20 @@ import {
   faSun,
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Header() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") === "dark" ? "dark" : "light";
+  });
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
   const navLinkClass =
-    "text-center text-lg font-primary font-semibold text-primary py-2";
+    "text-center text-lg font-primary font-semibold text-primary py-2 dark:text-light hover:text-dark dark:hover:text-lighter transition duration-300";
+
   return (
-    <header className="border-b border-gray-300 sticky top-0 z-20 bg-gray-100">
+    <header className="border-b border-gray-300 dark:border-gray-600 sticky top-0 z-20 bg-lighter dark:bg-gray-800 backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
       <div className="flex items-center justify-between mx-auto max-w-[1152px] px-6 py-4">
         <a href="/" className={navLinkClass}>
           <FontAwesomeIcon icon={faTags} className="h-8 w-8" />
@@ -26,7 +32,10 @@ export default function Header() {
               setTheme((prevTheme) =>
                 prevTheme === "dark" ? "light" : "dark"
               );
-              document.documentElement.classList.toggle("dark");
+              localStorage.setItem(
+                "theme",
+                theme === "dark" ? "light" : "dark"
+              );
             }}
           >
             <FontAwesomeIcon
@@ -57,7 +66,10 @@ export default function Header() {
             </li>
             <li>
               <a href="/cart" className="text-primary py-2">
-                <FontAwesomeIcon icon={faShoppingBasket} />
+                <FontAwesomeIcon
+                  icon={faShoppingBasket}
+                  className="dark:text-light"
+                />
               </a>
             </li>
           </ul>
@@ -66,5 +78,3 @@ export default function Header() {
     </header>
   );
 }
-
-// export default Header;
