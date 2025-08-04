@@ -141,8 +141,8 @@ export async function contactAction({ request, params }) {
   };
   try {
     await apiClient.post("/contacts", contactData);
+    // return redirect("/home")
     return { success: true };
-    // return redirect("/home");
   } catch (error) {
     throw new Response(
       error.message || "Failed to submit your message. Please try again.",

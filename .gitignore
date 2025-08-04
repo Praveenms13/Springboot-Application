@@ -1,2 +1,8 @@
 .vscode/
 .idea/
+ecommerce-backend/docker-stickershop-data/mysql.sock
+ecommerce-backend/docker-stickershop-data/*.pid
+ecommerce-backend/docker-stickershop-data/*.err
+ecommerce-backend/docker-stickershop-data/*.cnf
+ecommerce-backend/docker-stickershop-data/*.index
+ecommerce-backend/docker-stickershop-data/ib_buffer_pool

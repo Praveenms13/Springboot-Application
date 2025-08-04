@@ -11,3 +11,16 @@ CREATE TABLE IF NOT EXISTS products
     updated_at   TIMESTAMP DEFAULT NULL,
     updated_by   VARCHAR(20) DEFAULT NULL
     );
+
+CREATE TABLE IF NOT EXISTS contacts
+(
+    contact_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name          VARCHAR(100),
+    email         VARCHAR(100),
+    mobile_number VARCHAR(15),
+    message       VARCHAR(500),
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by    VARCHAR(20),
+    updated_at    TIMESTAMP DEFAULT NULL,
+    updated_by    VARCHAR(20) DEFAULT NULL
+    );

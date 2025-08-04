@@ -21,10 +21,10 @@ export default function Header() {
   return (
     <header className="border-b border-gray-300 dark:border-gray-600 sticky top-0 z-20 bg-lighter dark:bg-gray-800 backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
       <div className="flex items-center justify-between mx-auto max-w-[1152px] px-6 py-4">
-        <a href="/" className={navLinkClass}>
+        <NavLink to="/" className={navLinkClass}>
           <FontAwesomeIcon icon={faTags} className="h-8 w-8" />
           <span className="font-bold">Praveen's Sticker Shop</span>
-        </a>
+        </NavLink>
         <nav className="flex items-center py-2 z-10">
           <button
             className="flex items-center justify-center mx-3 w-8 h-8 rounded-full border border-primary dark:border-light transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600"
