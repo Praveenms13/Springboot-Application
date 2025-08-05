@@ -17,7 +17,7 @@ public class ContactController {
         if (isSaved) {
             return "Request Processed Successfully";
         } else {
-            return "An error occurred. Please try again later";
+            return "An error occurred. Please try again later.";
         }
     }
 }
