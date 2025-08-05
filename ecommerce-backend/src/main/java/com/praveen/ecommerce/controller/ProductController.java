@@ -3,6 +3,7 @@ package com.praveen.ecommerce.controller;
 import com.praveen.ecommerce.dto.ProductDto;
 import com.praveen.ecommerce.service.IProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,13 +19,7 @@ public class ProductController {
     private final IProductService iProductService;
 
     @GetMapping
-    public List<ProductDto> getProducts() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Thread was interrupted", e);
-        }
-        return iProductService.getProducts();
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        return ResponseEntity.ok().body(iProductService.getProducts());
     }
 }

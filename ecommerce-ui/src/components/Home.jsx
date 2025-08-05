@@ -51,7 +51,7 @@ export default function Home() {
   //       ></div>
   //     </div>
   //   );
-  // } 
+  // }
   const products = useLoaderData();
   return (
     <div className="max-w-[1152px] mx-auto px-6 py-8">
@@ -72,7 +72,8 @@ export async function productLoader() {
     return response.data;
   } catch (err) {
     throw new Response(
-      err.message ||
+      err.response?.data?.errorMessage ||
+        err.message ||
         "Failed to fetch the products from the data source, try again ...",
       { status: err.status || 500 }
     );
