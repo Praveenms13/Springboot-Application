@@ -19,6 +19,7 @@ import ErrorPage from "./components/ErrorPage.jsx";
 import { productLoader } from "./components/Home.jsx";
 import { contactAction } from "./components/Contact.jsx";
 import ProductDetails from "./components/ProductDetails.jsx";
+import { CartProvider } from "./store/cart-context.jsx";
 
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement={<ErrorPage />}>
@@ -35,7 +36,9 @@ const router = createBrowserRouter(routeDefinitions);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
     <ToastContainer
       position="top-right"
       autoClose={3000}

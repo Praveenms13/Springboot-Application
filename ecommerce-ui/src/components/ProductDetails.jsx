@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef } from "react";
+import { useCart } from "../store/cart-context";
 
 export default function ProductDetail() {
   const location = useLocation();
@@ -17,7 +18,11 @@ export default function ProductDetail() {
   const zoomRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const [backgroundPosition, setBackgroundPosition] = useState("center");
-
+  const { addToCart } = useCart();
+  const handleAddToCart = () => {
+    if (quantity < 1) return;
+    return addToCart(product, quantity);
+  };
   const handleMouseMove = (e) => {
     const { left, top, width, height } =
       zoomRef.current.getBoundingClientRect();
@@ -37,7 +42,9 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-[852px] flex items-center justify-center px-6 py-8 font-primary bg-normalbg dark:bg-darkbg">
-      <div className="max-w-5xl w-full mx-auto flex flex-col md:flex-row md:space-x-8 px-6 p-8">        <div
+      <div className="max-w-5xl w-full mx-auto flex flex-col md:flex-row md:space-x-8 px-6 p-8">
+        {" "}
+        <div
           ref={zoomRef}
           onMouseMove={isHovering ? handleMouseMove : null}
           onMouseEnter={handleMouseEnter}
@@ -55,7 +62,6 @@ export default function ProductDetail() {
             className="w-full h-full opacity-0"
           />
         </div>
-
         <div className="w-full md:w-1/2 flex flex-col space-y-6 mt-8 md:mt-0">
           <Link
             to="/home"
@@ -94,7 +100,9 @@ export default function ProductDetail() {
                 className="w-16 px-2 py-1 border rounded-md focus:ring focus:ring-light dark:focus:ring-gray-600 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
             </div>
-            <button className="w-full px-4 py-2 bg-primary dark:bg-light text-white dark:text-black rounded-md text-lg font-semibold hover:bg-dark dark:hover:bg-lighter transition">
+            <button 
+            onClick={handleAddToCart}
+            className="w-full px-4 py-2 bg-primary dark:bg-light text-white dark:text-black rounded-md text-lg font-semibold hover:bg-dark dark:hover:bg-lighter transition">
               Add to Cart
               <FontAwesomeIcon icon={faShoppingCart} className="ml-2" />
             </button>
