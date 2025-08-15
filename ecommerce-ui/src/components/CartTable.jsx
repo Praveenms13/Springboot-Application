@@ -64,7 +64,7 @@ export default function CartTable() {
                 />
               </td>
               <td className="px-4 sm:px-6 py-4 text-base font-light">
-                ${item.price.toFixed(2)}
+                Rs. {item.price.toFixed(2)}
               </td>
               <td className="px-4 sm:px-6 py-4">
                 <button
@@ -84,7 +84,7 @@ export default function CartTable() {
                 Subtotal
               </td>
               <td className="text-lg text-primary dark:text-blue-400 font-medium px-4 sm:px-6 py-4">
-                ${subtotal}
+                Rs. {subtotal}
               </td>
               <td></td>
             </tr>

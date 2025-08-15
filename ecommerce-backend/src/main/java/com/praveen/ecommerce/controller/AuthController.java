@@ -2,6 +2,9 @@ package com.praveen.ecommerce.controller;
 
 import com.praveen.ecommerce.dto.LoginRequestDto;
 import com.praveen.ecommerce.dto.LoginResponseDto;
+import com.praveen.ecommerce.dto.UserDto;
+import com.praveen.ecommerce.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,22 +25,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> apiLogin(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> apiLogin(
+            @RequestBody LoginRequestDto loginRequestDto,
+            HttpServletRequest request
+    ) {
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginRequestDto.username(), loginRequestDto.password()
-            ));
-            return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), null, null));
-        }
-        catch (BadCredentialsException e) {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequestDto.username(),
+                            loginRequestDto.password()
+                    )
+            );
+            String jwtToken = jwtUtil.generateJwtToken(authentication, request.getRemoteAddr());
+            UserDto userDto = new UserDto();
+            var loggedInUser = (User) authentication.getPrincipal();
+            userDto.setName(loggedInUser.getUsername());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
+        } catch (BadCredentialsException e) {
             return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid username or password");
-        }
-        catch (AuthenticationException e) {
+        } catch (AuthenticationException e) {
             return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Authentication Failed");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
         }
     }
