@@ -4,17 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -59,21 +54,13 @@ public class EcommerceApplicationSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        var user1 = User.builder().username("praveen").password("$2y$10$ao6RCOZ8thJLd5/FmEWYj.c3n2CMxhzI9sUCYEU5xR7l8hY3JT5L2").roles("USER").build();
-        var user2 = User.builder().username("admin").password("$2y$10$0I09FPxViAAIXuG7eZ1eg.0XdKYPXcCwUzGMdR4kY9lly.jhHHU2y").roles("USER", "ADMIN").build();
-        return new InMemoryUserDetailsManager(user1, user2);
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public AuthenticationManager authenticationManager (PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         ProviderManager providerManager = new ProviderManager(daoAuthenticationProvider);
         return providerManager;

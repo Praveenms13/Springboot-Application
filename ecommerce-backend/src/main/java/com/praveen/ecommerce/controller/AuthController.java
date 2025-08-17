@@ -4,10 +4,13 @@ import com.praveen.ecommerce.dto.LoginRequestDto;
 import com.praveen.ecommerce.dto.LoginResponseDto;
 import com.praveen.ecommerce.dto.RegisterRequestDto;
 import com.praveen.ecommerce.dto.UserDto;
+import com.praveen.ecommerce.entity.Customer;
+import com.praveen.ecommerce.repository.CustomerRepository;
 import com.praveen.ecommerce.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +18,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -33,7 +32,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
@@ -65,13 +64,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
-        inMemoryUserDetailsManager.createUser(
-                new User(
-                        registerRequestDto.getEmail(),
-                        passwordEncoder.encode(registerRequestDto.getPassword()),
-                        List.of(new SimpleGrantedAuthority("USER"))
-                )
-        );
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(registerRequestDto, customer);
+        customer.setPasswordHash(passwordEncoder.encode(registerRequestDto.getPassword()));
+        customerRepository.save(customer);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Registration Successful");
     }

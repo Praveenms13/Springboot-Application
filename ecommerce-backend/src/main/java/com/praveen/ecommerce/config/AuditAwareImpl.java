@@ -1,6 +1,5 @@
 package com.praveen.ecommerce.config;
 
-import org.hibernate.annotations.Comment;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 
