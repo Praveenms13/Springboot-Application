@@ -24,7 +24,7 @@ public class JwtUtil {
                 ApplicationConstants.JWT_SECRET_KEY,
                 ApplicationConstants.JWT_SECRET_DEFAULT_VALUE
         );
-        System.out.println("Secret: " + env.getProperty(ApplicationConstants.JWT_SECRET_KEY));
+        System.out.println("Secret:  " + env.getProperty(ApplicationConstants.JWT_SECRET_KEY));
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         User fetchedUser = (User) authentication.getPrincipal();
 

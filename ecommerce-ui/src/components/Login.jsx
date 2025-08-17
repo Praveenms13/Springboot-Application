@@ -9,15 +9,20 @@ import {
 } from "react-router-dom";
 import apiClient from "../api/apiClient";
 import { toast } from "react-toastify";
+import { useAuth } from "../store/auth-context";
 
 export default function Login() {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
+  const { loginSuccess } = useAuth();
+  const from = sessionStorage.getItem("redirectPath") || "/home";
   useEffect(() => {
     if (actionData?.succcess) {
-      navigate("/home");
+      loginSuccess(actionData.JwtToken, actionData.user);
+      sessionStorage.removeItem("redirectPath");
+      navigate(from);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login Failed");
     }
