@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -66,10 +67,7 @@ public class EcommerceApplicationSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
-        ProviderManager providerManager = new ProviderManager(daoAuthenticationProvider);
-        return providerManager;
+    public AuthenticationManager authenticationManager (AuthenticationProvider authenticationProvider) {
+        return new ProviderManager(authenticationProvider);
     }
 }

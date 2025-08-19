@@ -1,6 +1,7 @@
 package com.praveen.ecommerce.util;
 
 import com.praveen.ecommerce.constants.ApplicationConstants;
+import com.praveen.ecommerce.entity.Customer;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,14 @@ public class JwtUtil {
         );
         System.out.println("Secret:  " + env.getProperty(ApplicationConstants.JWT_SECRET_KEY));
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        User fetchedUser = (User) authentication.getPrincipal();
+        Customer fetchedCustomer = (Customer) authentication.getPrincipal();
 
         return Jwts.builder()
                 .issuer("Praveen's Sticker Shop")
-                .subject(fetchedUser.getUsername())
+                .subject("JWT Token")
                 .claim("ip", ipAddress)
+                .claim("username", fetchedCustomer.getName())
+                .claim("mobileNumber", fetchedCustomer.getMobileNumber())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 15))
                 .signWith(secretKey)

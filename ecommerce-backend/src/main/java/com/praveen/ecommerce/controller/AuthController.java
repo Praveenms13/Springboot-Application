@@ -20,7 +20,6 @@ import org.springframework.security.authentication.password.CompromisedPasswordC
 import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,10 +53,10 @@ public class AuthController {
                             loginRequestDto.password()
                     )
             );
+            var userDto = new UserDto();
+            var loggedInUser = (Customer) authentication.getPrincipal();
+            BeanUtils.copyProperties(loggedInUser, userDto);
             String jwtToken = jwtUtil.generateJwtToken(authentication, request.getRemoteAddr());
-            UserDto userDto = new UserDto();
-            var loggedInUser = (User) authentication.getPrincipal();
-            userDto.setName(loggedInUser.getUsername());
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
         } catch (BadCredentialsException e) {
