@@ -23,7 +23,7 @@ export default function Register() {
   useEffect(() => {
     if (actionData?.success) {
       navigate("/login");
-      toast.success("Registration completed successfully. Try loging In ...");
+      toast.success("You're registered successfully !!");
     }
   }, [actionData]);
 
@@ -198,7 +198,7 @@ export async function registerAction({ request }) {
     const response = await apiClient.post("/auth/register", registerData);
     return { success: true };
   } catch (error) {
-    if (error.response?.status === 400) {
+    if (error.response?.status === 400 || error.response?.status === 422) {
       return { success: false, errors: error.response?.data };
     }
     throw new Response(
