@@ -24,7 +24,7 @@ public class EcommerceApplicationUsernamePwdAuthenticationProvider implements Au
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        Customer customer = customerRepository.findByEmail(username).orElseThrow(
+        Customer customer = customerRepository.findByEmailOrMobileNumber(username, username).orElseThrow(
                 () -> new UsernameNotFoundException(
                         "User details not found with user: " + username
                 )
