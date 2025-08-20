@@ -5,8 +5,9 @@ import { useAuth } from "../store/auth-context";
 export default function ProtectedRoute() {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
+  const skipRedirectPath = sessionStorage.getItem("skipRedirectPath") === "true";
   useEffect(() => {
-    if (!isAuthenticated && location.pathname !== "/login") {
+    if (!isAuthenticated && location.pathname !== "/login" && !skipRedirectPath) {
       sessionStorage.setItem("redirectPath", location.pathname);
     }
   }, [isAuthenticated, location.pathname]);

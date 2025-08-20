@@ -22,7 +22,9 @@ export default function Login() {
     if (actionData?.succcess) {
       loginSuccess(actionData.JwtToken, actionData.user);
       sessionStorage.removeItem("redirectPath");
-      navigate(from);
+      setTimeout(() => {
+        navigate(from);
+      }, 100);
     } else if (actionData?.errors) {
       toast.error(actionData.errors.message || "Login Failed");
     }
