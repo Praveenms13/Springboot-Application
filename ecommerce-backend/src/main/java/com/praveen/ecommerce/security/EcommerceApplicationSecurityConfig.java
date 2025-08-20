@@ -1,5 +1,6 @@
 package com.praveen.ecommerce.security;
 
+import com.praveen.ecommerce.filter.JwtTokenValidationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -38,6 +40,7 @@ public class EcommerceApplicationSecurityConfig {
                         publicPaths.forEach(path -> requests.requestMatchers(path).permitAll());
                         requests.anyRequest().authenticated();
                 })
+                .addFilterBefore(new JwtTokenValidationFilter(publicPaths), BasicAuthenticationFilter.class)
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults()).build();
     }

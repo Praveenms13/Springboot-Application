@@ -28,12 +28,12 @@ public class JwtUtil {
         System.out.println("Secret:  " + env.getProperty(ApplicationConstants.JWT_SECRET_KEY));
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Customer fetchedCustomer = (Customer) authentication.getPrincipal();
-
         return Jwts.builder()
                 .issuer("Praveen's Sticker Shop")
                 .subject("JWT Token")
                 .claim("ip", ipAddress)
-                .claim("username", fetchedCustomer.getName())
+                .claim("name", fetchedCustomer.getName())
+                .claim("email", fetchedCustomer.getEmail())
                 .claim("mobileNumber", fetchedCustomer.getMobileNumber())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 15))
