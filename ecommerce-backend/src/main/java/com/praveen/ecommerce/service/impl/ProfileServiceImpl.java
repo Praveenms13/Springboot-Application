@@ -59,8 +59,9 @@ public class ProfileServiceImpl implements IProfileService {
         address.setPostalCode(profileRequestDto.getPostalCode());
         address.setCountry(profileRequestDto.getCountry());
         customer.setAddress(address);
-        customerRepository.save(customer);
+        customer = customerRepository.save(customer);
         ProfileResponseDto profileResponseDto = mapCustomerToProfileDto(customer);
+        profileResponseDto.setEmailUpdated(isEmailUpdated);
         return profileResponseDto;
     }
 }
