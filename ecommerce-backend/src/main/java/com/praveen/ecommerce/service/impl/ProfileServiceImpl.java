@@ -1,6 +1,8 @@
 package com.praveen.ecommerce.service.impl;
 
+import com.praveen.ecommerce.dto.ProfileRequestDto;
 import com.praveen.ecommerce.dto.ProfileResponseDto;
+import com.praveen.ecommerce.entity.Address;
 import com.praveen.ecommerce.entity.Customer;
 import com.praveen.ecommerce.repository.CustomerRepository;
 import com.praveen.ecommerce.service.IProfileService;
@@ -31,6 +33,34 @@ public class ProfileServiceImpl implements IProfileService {
     private ProfileResponseDto mapCustomerToProfileDto(Customer customer) {
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         BeanUtils.copyProperties(customer, profileResponseDto);
+        if (customer.getAddress() != null) {
+            profileResponseDto.setStreet(customer.getAddress().getStreet());
+            profileResponseDto.setCity(customer.getAddress().getCity());
+            profileResponseDto.setState(customer.getAddress().getState());
+            profileResponseDto.setCountry(customer.getAddress().getCountry());
+            profileResponseDto.setPostalCode(customer.getAddress().getPostalCode());
+        }
+        return profileResponseDto;
+    }
+
+    @Override
+    public ProfileResponseDto updateProfile(ProfileRequestDto profileRequestDto) {
+        Customer customer = getAuthenticatedCustomer();
+        boolean isEmailUpdated = !customer.getEmail().equals(profileRequestDto.getEmail());
+        BeanUtils.copyProperties(profileRequestDto, customer);
+        Address address = customer.getAddress();
+        if (address == null) {
+            address = new Address();
+            address.setCustomer(customer);
+        }
+        address.setStreet(profileRequestDto.getStreet());
+        address.setCity(profileRequestDto.getCity());
+        address.setState(profileRequestDto.getState());
+        address.setPostalCode(profileRequestDto.getPostalCode());
+        address.setCountry(profileRequestDto.getCountry());
+        customer.setAddress(address);
+        customerRepository.save(customer);
+        ProfileResponseDto profileResponseDto = mapCustomerToProfileDto(customer);
         return profileResponseDto;
     }
 }
