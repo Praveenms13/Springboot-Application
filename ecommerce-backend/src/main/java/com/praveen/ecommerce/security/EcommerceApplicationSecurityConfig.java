@@ -37,7 +37,8 @@ public class EcommerceApplicationSecurityConfig {
                 .cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> {
                         publicPaths.forEach(path -> requests.requestMatchers(path).permitAll());
-                        requests.anyRequest().authenticated();
+                        requests.requestMatchers("/api/v1/admin/**").hasRole("ADMIN");
+                        requests.anyRequest().hasAnyRole("USER", "ADMIN");
                 })
                 .addFilterBefore(new JwtTokenValidationFilter(publicPaths), BasicAuthenticationFilter.class)
                 .formLogin(withDefaults())
