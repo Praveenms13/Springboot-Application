@@ -1,9 +1,6 @@
 package com.praveen.ecommerce.controller;
 
-import com.praveen.ecommerce.dto.LoginRequestDto;
-import com.praveen.ecommerce.dto.LoginResponseDto;
-import com.praveen.ecommerce.dto.RegisterRequestDto;
-import com.praveen.ecommerce.dto.UserDto;
+import com.praveen.ecommerce.dto.*;
 import com.praveen.ecommerce.entity.Customer;
 import com.praveen.ecommerce.entity.Role;
 import com.praveen.ecommerce.repository.CustomerRepository;
@@ -61,6 +58,11 @@ public class AuthController {
             var loggedInUser = (Customer) authentication.getPrincipal();
             BeanUtils.copyProperties(loggedInUser, userDto);
             userDto.setRoles(authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
+            if (loggedInUser.getAddress() != null) {
+                AddressDto addressDto = new AddressDto();
+                BeanUtils.copyProperties(loggedInUser.getAddress(), addressDto);
+                userDto.setAddress(addressDto);
+            }
             String jwtToken = jwtUtil.generateJwtToken(authentication, request.getRemoteAddr());
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));

@@ -1,5 +1,6 @@
 package com.praveen.ecommerce.service.impl;
 
+import com.praveen.ecommerce.dto.AddressDto;
 import com.praveen.ecommerce.dto.ProfileRequestDto;
 import com.praveen.ecommerce.dto.ProfileResponseDto;
 import com.praveen.ecommerce.entity.Address;
@@ -34,11 +35,9 @@ public class ProfileServiceImpl implements IProfileService {
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         BeanUtils.copyProperties(customer, profileResponseDto);
         if (customer.getAddress() != null) {
-            profileResponseDto.setStreet(customer.getAddress().getStreet());
-            profileResponseDto.setCity(customer.getAddress().getCity());
-            profileResponseDto.setState(customer.getAddress().getState());
-            profileResponseDto.setCountry(customer.getAddress().getCountry());
-            profileResponseDto.setPostalCode(customer.getAddress().getPostalCode());
+            AddressDto addressDto = new AddressDto();
+            BeanUtils.copyProperties(customer.getAddress(), addressDto);
+            profileResponseDto.setAddress(addressDto);
         }
         return profileResponseDto;
     }
