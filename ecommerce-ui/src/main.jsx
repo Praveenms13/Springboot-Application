@@ -33,6 +33,7 @@ import AdminOrders from "./components/admin/AdminOrders.jsx";
 import AdminMessages from "./components/admin/AdminMessages.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import OrderSuccess from "./components/OrderSuccess.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -48,6 +49,7 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/products/:productId" element={<ProductDetails />} />
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
+      <Route path="/order-success" element={<OrderSuccess />} />
       <Route
         path="/profile"
         element={<Profile />}
