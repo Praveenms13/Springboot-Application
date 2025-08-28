@@ -2,6 +2,7 @@ package com.praveen.ecommerce.filter;
 
 import com.praveen.ecommerce.constants.ApplicationConstants;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -43,6 +44,10 @@ public class JwtTokenValidationFilter extends OncePerRequestFilter {
                 String roles = String.valueOf(claims.get("roles"));
                 Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(roles));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (ExpiredJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token Expired");
+                return;
             } catch (Exception e) {
                 throw new BadRequestException("Invalid Token Received !");
             }

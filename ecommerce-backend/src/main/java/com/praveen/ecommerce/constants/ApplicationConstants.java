@@ -9,4 +9,5 @@ public class ApplicationConstants {
     public static final String JWT_HEADER = "Authorization";
     public static final String ORDER_STATUS_CREATED = "CREATED";
     public static final String ORDER_STATUS_COMPLETED = "COMPLETED";
+    public static final String ORDER_STATUS_CANCELLED = "CANCELLED";
 }

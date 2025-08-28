@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS products
     popularity   INT,
     image_url    VARCHAR(500),
     created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by   VARCHAR(20) NOT NULL,
+    created_by   VARCHAR(100) NOT NULL,
     updated_at   TIMESTAMP DEFAULT NULL,
-    updated_by   VARCHAR(20) DEFAULT NULL
+    updated_by   VARCHAR(100) DEFAULT NULL
     );
 
 CREATE TABLE IF NOT EXISTS contacts
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS contacts
     mobile_number VARCHAR(15),
     message       VARCHAR(500),
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by    VARCHAR(20),
+    created_by    VARCHAR(100),
     updated_at    TIMESTAMP DEFAULT NULL,
-    updated_by    VARCHAR(20) DEFAULT NULL
+    updated_by    VARCHAR(100) DEFAULT NULL
     );
 
 CREATE TABLE IF NOT EXISTS customers
@@ -61,9 +61,9 @@ CREATE TABLE IF NOT EXISTS roles (
      customer_id  BIGINT NOT NULL,
      name         VARCHAR(50) NOT NULL,
      created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-     created_by   VARCHAR(20) NOT NULL,
+     created_by   VARCHAR(100) NOT NULL,
      updated_at   TIMESTAMP DEFAULT NULL,
-     updated_by   VARCHAR(20) DEFAULT NULL,
+     updated_by   VARCHAR(100) DEFAULT NULL,
      FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
 );
 
@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS orders
     payment_status VARCHAR(50)                           NOT NULL,
     order_status   VARCHAR(50)                           NOT NULL,
     created_at     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by     VARCHAR(20)                           NOT NULL,
+    created_by     VARCHAR(100)                           NOT NULL,
     updated_at     TIMESTAMP   DEFAULT NULL,
-    updated_by     VARCHAR(20) DEFAULT NULL,
+    updated_by     VARCHAR(100) DEFAULT NULL,
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id)
 );
 
@@ -90,9 +90,9 @@ CREATE TABLE IF NOT EXISTS order_items
     quantity        INT NOT NULL,
     price           DECIMAL(10, 2) NOT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by      VARCHAR(20)    NOT NULL,
+    created_by      VARCHAR(100)    NOT NULL,
     updated_at      TIMESTAMP      DEFAULT NULL,
-    updated_by      VARCHAR(20)    DEFAULT NULL,
+    updated_by      VARCHAR(100)    DEFAULT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
