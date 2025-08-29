@@ -1,7 +1,9 @@
 package com.praveen.ecommerce.service.impl;
 
 import com.praveen.ecommerce.constants.ApplicationConstants;
+import com.praveen.ecommerce.dto.OrderItemResponseDto;
 import com.praveen.ecommerce.dto.OrderRequestDto;
+import com.praveen.ecommerce.dto.OrderResponseDto;
 import com.praveen.ecommerce.entity.Customer;
 import com.praveen.ecommerce.entity.Order;
 import com.praveen.ecommerce.entity.OrderItem;
@@ -43,5 +45,28 @@ public class OrderServiceImpl implements IOrderService {
         }).collect(Collectors.toList());
         order.setOrderItems(orderItems);
         orderRepository.save(order);
+    }
+
+    @Override
+    public List<OrderResponseDto> getAllCustomerOrders() {
+        Customer customer = profileService.getAuthenticatedCustomer();
+        List<Order> orders = orderRepository.findByCustomerOrderByCreatedAtDesc(customer);
+        return orders.stream().map(this::mapToOrderResponseDto).collect(Collectors.toList());
+    }
+
+    private OrderResponseDto mapToOrderResponseDto(Order order){
+        List<Object> itemDTOs = order.getOrderItems()
+                .stream()
+                .map(this::mapToOrderItemResponseDto).
+                collect(Collectors.toList());
+        return new OrderResponseDto(order.getOrderId()
+                , order.getOrderStatus(), order.getTotalPrice(), order.getCreatedAt().toString()
+                , itemDTOs);
+    }
+
+    private Object mapToOrderItemResponseDto(OrderItem orderItem) {
+        return new OrderItemResponseDto(
+                orderItem.getProduct().getName(), orderItem.getQuantity(),
+                orderItem.getPrice(), orderItem.getProduct().getImageUrl());
     }
 }
