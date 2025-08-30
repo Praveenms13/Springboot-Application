@@ -24,6 +24,6 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderResponseDto>> getAllCustomerOrders() {
-        return ResponseEntity.ok((List<OrderResponseDto>) iOrderService.getAllCustomerOrders());
+        return ResponseEntity.ok(iOrderService.getAllCustomerOrders());
     }
 }

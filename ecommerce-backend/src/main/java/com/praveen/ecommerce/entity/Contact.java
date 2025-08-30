@@ -12,7 +12,7 @@ public class Contact extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id", nullable = false)
-    private Long id;
+    private Long contactId;
 
     @Column(name = "name", length = 100)
     private String name;
@@ -25,4 +25,7 @@ public class Contact extends BaseEntity{
 
     @Column(name = "message", length = 500)
     private String message;
+
+    @Column(name = "status", length = 50)
+    private String status;
 }

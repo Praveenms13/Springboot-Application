@@ -2,10 +2,13 @@ package com.praveen.ecommerce.service;
 
 import com.praveen.ecommerce.dto.OrderRequestDto;
 import com.praveen.ecommerce.dto.OrderResponseDto;
+import com.praveen.ecommerce.entity.Order;
 
 import java.util.List;
 
 public interface IOrderService {
     void createOrder(OrderRequestDto orderRequestDto);
     List<OrderResponseDto> getAllCustomerOrders();
+    List<OrderResponseDto> getAllPendingOrders();
+    Order updateOrderStatus(Long orderId, String orderStatus);
 }

@@ -28,9 +28,13 @@ import Profile, {
   profileLoader,
   profileAction,
 } from "./components/Profile.jsx";
-import Orders from "./components/Orders.jsx";
-import AdminOrders from "./components/admin/AdminOrders.jsx";
-import AdminMessages from "./components/admin/AdminMessages.jsx";
+import Orders, { ordersLoader } from "./components/Orders.jsx";
+import AdminOrders, {
+  adminOrdersLoader,
+} from "./components/admin/AdminOrders.jsx";
+import AdminMessages, {
+  messagesLoader,
+} from "./components/admin/AdminMessages.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import OrderSuccess from "./components/OrderSuccess.jsx";
@@ -59,9 +63,17 @@ const routeDefinitions = createRoutesFromElements(
           return !actionResult?.success;
         }}
       />
-      <Route path="/orders" element={<Orders />} />
-      <Route path="/admin/orders" element={<AdminOrders />} />
-      <Route path="/admin/messages" element={<AdminMessages />} />
+      <Route path="/orders" element={<Orders />} loader={ordersLoader} />
+      <Route
+        path="/admin/orders"
+        element={<AdminOrders />}
+        loader={adminOrdersLoader}
+      />
+      <Route
+        path="/admin/messages"
+        element={<AdminMessages />}
+        loader={messagesLoader}
+      />
     </Route>
   </Route>
 );
