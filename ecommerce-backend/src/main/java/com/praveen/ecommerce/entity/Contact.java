@@ -8,6 +8,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "contacts")
+// ---------- Optional Part Starts ----------
+@NamedQuery(name="Contact.findByStatus", query="SELECT c FROM Contact c WHERE c.status=:status")
+@NamedNativeQuery(name="Contact.findByStatusWithNQ", query="SELECT * FROM contacts WHERE status=:status", resultClass = Contact.class)
+// ---------- Optional Part Ends ----------
 public class Contact extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

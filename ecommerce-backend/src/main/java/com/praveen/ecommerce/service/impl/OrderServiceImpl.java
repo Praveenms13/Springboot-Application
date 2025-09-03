@@ -14,10 +14,11 @@ import com.praveen.ecommerce.repository.ProductRepository;
 import com.praveen.ecommerce.service.IOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,12 +63,16 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Order updateOrderStatus(Long orderId, String orderStatus) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
+    public void updateOrderStatus(Long orderId, String orderStatus) {
+        /** Order order = orderRepository.findById(orderId).orElseThrow(
                 () -> new ResourceNotFoundException("Order", "OrderId", orderId.toString())
         );
         order.setOrderStatus(orderStatus);
-        return orderRepository.save(order);
+        return orderRepository.save(order); */
+        // Optimization Done here instead of querying table a couple of times I've made it to done once
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        orderRepository.updateOrderStatusByOrderId(orderId, orderStatus, email);
     }
 
     private OrderResponseDto mapToOrderResponseDto(Order order){

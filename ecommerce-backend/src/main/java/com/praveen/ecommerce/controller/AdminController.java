@@ -26,18 +26,17 @@ public class AdminController {
     }
 
     @PatchMapping("/orders/confirm/{orderId}")
-    public ResponseEntity<ResponseDto> confirmOrder(@PathVariable Long orderId) {
-        Order confirmedOrder = iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CONFIRMED);
+    public ResponseEntity<ResponseDto> confirmOrder(@PathVariable Long orderId) {iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CONFIRMED);
         return ResponseEntity.ok(
-                new ResponseDto("200", "Order #" + confirmedOrder.getOrderId() + " has been confirmed")
+                new ResponseDto("200", "Order #" + orderId + " has been confirmed")
         );
     }
 
     @PatchMapping("/orders/cancel/{orderId}")
     public ResponseEntity<ResponseDto> cancelOrder(@PathVariable Long orderId) {
-        Order cancelledOrder = iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
+        iOrderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
         return ResponseEntity.ok(
-                new ResponseDto("200", "Order #" + cancelledOrder.getOrderId() + " has been canceled")
+                new ResponseDto("200", "Order #" + orderId + " has been canceled")
         );
     }
 
