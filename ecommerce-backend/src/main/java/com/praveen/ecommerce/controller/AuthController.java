@@ -4,6 +4,7 @@ import com.praveen.ecommerce.dto.*;
 import com.praveen.ecommerce.entity.Customer;
 import com.praveen.ecommerce.entity.Role;
 import com.praveen.ecommerce.repository.CustomerRepository;
+import com.praveen.ecommerce.repository.RoleRepository;
 import com.praveen.ecommerce.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,6 +40,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final CustomerRepository customerRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final CompromisedPasswordChecker compromisedPasswordChecker;
 
@@ -96,9 +98,7 @@ public class AuthController {
         Customer customer = new Customer();
         BeanUtils.copyProperties(registerRequestDto, customer);
         customer.setPasswordHash(passwordEncoder.encode(registerRequestDto.getPassword()));
-        Role role = new Role();
-        role.setName("ROLE_USER");
-        customer.setRoles(Set.of(role));
+        roleRepository.findByName(("ROLE_USER")).ifPresent( role -> customer.setRoles(Set.of(role)) );
         customerRepository.save(customer);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Registration Successful");
